@@ -1,0 +1,4 @@
+streamlit
+websockets
+asyncio
+pyaudio
