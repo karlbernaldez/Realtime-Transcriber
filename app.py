@@ -1,4 +1,5 @@
 import streamlit as st
+import websockets
 import asyncio
 import base64
 import json
@@ -33,7 +34,7 @@ def stop_listening():
 	st.session_state['run'] = False
 
 
-st.title('Get real-time transcription')
+st.title('Eazeye Real-Time')
 
 start, stop = st.columns(2)
 start.button('Start listening', on_click=start_listening)
@@ -50,8 +51,6 @@ async def send_receive():
 	async with websockets.connect(
 		URL,
 		extra_headers=(("Authorization", auth_key),),
-		ping_interval=5,
-		ping_timeout=20
 	) as _ws:
 
 		r = await asyncio.sleep(0.1)
@@ -87,9 +86,9 @@ async def send_receive():
 				try:
 					result_str = await _ws.recv()
 					result = json.loads(result_str)['text']
-
 					if json.loads(result_str)['message_type']=='FinalTranscript':
 						print(result)
+						print(result_str)
 						st.session_state['text'] = result
 						st.markdown(st.session_state['text'])
 
@@ -103,6 +102,5 @@ async def send_receive():
 					assert False, "Not a websocket 4008 error"
 			
 		send_result, receive_result = await asyncio.gather(send(), receive())
-
 
 asyncio.run(send_receive())
