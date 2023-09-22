@@ -1,6 +1,5 @@
 streamlit
 websockets
-base64
 json
 pyaudio
 os
