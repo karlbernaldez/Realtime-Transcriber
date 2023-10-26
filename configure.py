@@ -1,1 +1,1 @@
-auth_key="2aed6f5a2165478084e6a79ec0a9813f"
+auth_key=""
